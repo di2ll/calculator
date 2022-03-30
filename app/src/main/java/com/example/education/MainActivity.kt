@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import java.lang.ArithmeticException
+import java.lang.Error
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,8 +15,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
-        var out: String = ""
-        var temp: String = ""
+        var out: String = "0"
+        var temp: String = "0"
         val input = findViewById<TextView>(R.id.input)
         val cache = findViewById<TextView>(R.id.temp)
         var sign: Int = 0
@@ -71,8 +72,8 @@ class MainActivity : AppCompatActivity() {
             input.alpha = 1F
         }
         val C = findViewById<Button>(R.id.C).setOnClickListener{
-            out=""
-            temp = ""
+            out="0"
+            temp = "0"
             input.text = out
             cache.text = temp
         }
@@ -104,16 +105,29 @@ class MainActivity : AppCompatActivity() {
         val equals = findViewById<Button>(R.id.equals).setOnClickListener{
             try {
                 when (sign) {
-                    1 -> input.text = (temp.toLong() + out.toLong()).toString()
-                    2 -> input.text = (temp.toLong() - out.toLong()).toString()
-                    3 -> input.text = (temp.toLong() * out.toLong()).toString()
-                    4 -> input.text = (temp.toLong() / out.toLong()).toString()
+                    1 -> {
+                        input.text = (temp.toLong() + out.toLong()).toString()
+                        out = (temp.toLong() + out.toLong()).toString()
+                    }
+                    2 -> {
+                        input.text = (temp.toLong() - out.toLong()).toString()
+                        out = (temp.toLong() - out.toLong()).toString()
+                    }
+                    3 -> {
+                        input.text = (temp.toLong() * out.toLong()).toString()
+                        out = (temp.toLong() * out.toLong()).toString()
+                    }
+                    4 -> {
+                        input.text = (temp.toLong() / out.toLong()).toString()
+                        out = (temp.toLong() / out.toLong()).toString()
+                    }
                     0 -> input.text = "INVALID SIGN"
                 }
             }
             catch (Exception: ArithmeticException) {
                 input.text = "ERROR"
             }
+
         }
 
         Thread{
